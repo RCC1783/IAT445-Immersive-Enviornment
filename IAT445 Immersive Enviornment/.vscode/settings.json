@@ -56,15 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "files.associations": {
-        "*.asset": "yaml",
-        "*.meta": "yaml",
-        "*.prefab": "yaml",
-        "*.unity": "yaml"
-    },
-    "explorer.fileNesting.enabled": true,
-    "explorer.fileNesting.patterns": {
-        "*.sln": "*.csproj"
-    },
-    "dotnet.defaultSolution": "IAT445-Immersive-Enviornment.sln"
+    "dotnet.defaultSolution": "IAT445 Immersive Enviornment.sln"
 }
