@@ -96,7 +96,7 @@ public class MediumBodyController : PlayerController_Base
         Weight targetWeight;
         if (oc == null) targetWeight = Weight.IMMOVABLE;
         else targetWeight = oc.weight;
-        if (targetWeight < Weight.MEDIUM)
+        if (targetWeight <= Weight.MEDIUM)
         {
             handTransform.position = rayTargetPoint.transform.position;
             objectInHand = target;
