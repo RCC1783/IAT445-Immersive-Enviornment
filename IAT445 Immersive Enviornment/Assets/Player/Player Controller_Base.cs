@@ -19,9 +19,19 @@ public class PlayerController_Base : MonoBehaviour
     protected InputAction moveInp;
     protected InputAction lookInp;
     protected InputAction uniqueAction;
+    protected InputAction useRayAction;
 
     [SerializeField] protected float moveSpeed = 5f;
     [SerializeField] protected float lookSpeed = 100f;
+
+    // Shrink/grow ray stuff
+    [Header("Grow/Shrink Ray Settings")]
+    [SerializeField] protected float rayDistance = 2;
+    [SerializeField] protected GameObject rayTargetPoint;
+    [SerializeField] protected LayerMask layerMask;
+    [SerializeField] protected float scalingFac = 0.02f;
+    protected Vector3 scaleVec;
+
 
     Vector2 camRot;
 
@@ -35,8 +45,9 @@ public class PlayerController_Base : MonoBehaviour
     {
         moveInp = InputSystem.actions.FindAction("Move");
         lookInp = InputSystem.actions.FindAction("Look");
-        
-        uniqueAction = InputSystem.actions.FindAction("Unique 1");
+
+        uniqueAction = InputSystem.actions.FindAction("Unique");
+        useRayAction = InputSystem.actions.FindAction("Size Ray");
 
         rb = GetComponent<Rigidbody>();
 
@@ -45,6 +56,8 @@ public class PlayerController_Base : MonoBehaviour
             rb.useGravity = false;
             moveSpeed *= 1.5f;
         }
+
+        scaleVec = new Vector3(scalingFac, scalingFac, scalingFac);
     }
 
     // Update is called once per frame
@@ -94,10 +107,12 @@ public class PlayerController_Base : MonoBehaviour
         Vector3 moveDir = (forwardVec + rightVec).normalized * moveSpeed * Time.fixedDeltaTime;
         transform.Translate(moveDir);
     }
-    
+
     public void SetActive(bool status)
     {
         isActive = status;
         camera.enabled = status;
     }
+    
+    
 }

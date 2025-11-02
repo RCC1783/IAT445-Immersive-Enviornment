@@ -52,10 +52,12 @@ public class TinyBodyController : PlayerController_Base
 
         if (!isActive) return;
 
-        if(webTarget != null)
+        if (webTarget != null)
         {
             UpdateWeb();
         }
+
+        DoRaycast();
     }
 
     void ShootWeb()
@@ -124,7 +126,7 @@ public class TinyBodyController : PlayerController_Base
     {
         webStuckOn = targ;
     }
-    
+
     private void PullOnWeb()
     {
         if (webStuckOn == null) return;
@@ -132,7 +134,7 @@ public class TinyBodyController : PlayerController_Base
 
         Vector3 dir = webTarget.transform.position - transform.position;
 
-        if(webTargetScript.targetWeight == Weight.NULL)
+        if (webTargetScript.targetWeight == Weight.NULL)
         {
             return;
         }
@@ -148,14 +150,48 @@ public class TinyBodyController : PlayerController_Base
             if (targetRB == null) return;
             targetRB.AddForce(dir.normalized * -1 * webPullForce * 100 / targetRB.mass);
         }
-        
-        Destroy(webTarget);   
-        while(webObjects.Count > 0)
+
+        Destroy(webTarget);
+        while (webObjects.Count > 0)
         {
             GameObject tmp = webObjects[webObjects.Count - 1];
             webObjects.Remove(tmp);
             Destroy(tmp);
             webStuckOn = null;
+        }
+    }
+    
+    void DoRaycast()
+    {
+        RaycastHit hitInfo;
+
+        if (Physics.Raycast(camera.transform.position, camera.transform.forward.normalized, out hitInfo, rayDistance, layerMask))
+        {
+            if (rayTargetPoint != null && isActive)
+            {
+                GameObject target = hitInfo.collider.gameObject;
+
+                rayTargetPoint.transform.position = hitInfo.point;
+
+                Renderer rayTargetRenderer = rayTargetPoint.GetComponent<Renderer>();
+
+                ObjectComponent oc = target.GetComponent<ObjectComponent>();
+                Weight targetWeight;
+                if (oc == null) targetWeight = Weight.IMMOVABLE;
+                else targetWeight = oc.weight;
+
+                //Grow Target
+                rayTargetRenderer.material.SetColor("_BaseColor", Color.green);
+                if (useRayAction.ReadValue<float>() > 0)
+                {
+                    target.transform.localScale += scaleVec;
+                    target.transform.position += new Vector3(0, scalingFac, 0) / 2f;
+                }
+            }
+        }
+        else if (rayTargetPoint != null)
+        {
+            rayTargetPoint.transform.position = body.transform.position;
         }
     }
 

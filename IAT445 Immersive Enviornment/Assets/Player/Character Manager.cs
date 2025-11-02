@@ -4,22 +4,20 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public enum Size { TINY, MEDIUM, HUGE }
+public enum Size { TINY, HUGE }
 public class CharacterManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] characters;
 
-    [SerializeField] private Size currentSize = Size.MEDIUM;
+    [SerializeField] private Size currentSize = Size.HUGE;
 
-    private InputAction increaseSizeBut;
-    private InputAction decreaseSizeBut;
+    private InputAction changeSizeBut;
 
     private int scaleEnumCount;
 
     void Start()
     {
-        increaseSizeBut = InputSystem.actions.FindAction("Increase Size");
-        decreaseSizeBut = InputSystem.actions.FindAction("Decrease Size");
+        changeSizeBut = InputSystem.actions.FindAction("Change Size");
 
         scaleEnumCount = Enum.GetValues(typeof(Size)).Length;
 
@@ -31,18 +29,12 @@ public class CharacterManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (increaseSizeBut.WasPressedThisFrame())
+        if (changeSizeBut.WasPressedThisFrame())
         {
             Size newSize = (Size)(((int)currentSize + 1) % characters.Length);
             SwitchPlayerSize(newSize);
             return;
 
-        }
-        if (decreaseSizeBut.WasPressedThisFrame())
-        {
-            Size newSize = (Size)(((int)currentSize - 1) % characters.Length);
-            SwitchPlayerSize(newSize);
-            return;
         }
     }
     
