@@ -19,7 +19,15 @@ MonoBehaviour:
   m_RendererDataList:
   - {fileID: 11400000, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   - {fileID: 11400000, guid: ba126990e7c09408e886494b7ac874e3, type: 2}
+=======
+  - {fileID: 11400000, guid: ff046cb43e56f4c638bf36e7258e3dcf, type: 2}
+>>>>>>> Stashed changes
+=======
+  - {fileID: 11400000, guid: ff046cb43e56f4c638bf36e7258e3dcf, type: 2}
+>>>>>>> Stashed changes
 =======
   - {fileID: 11400000, guid: ff046cb43e56f4c638bf36e7258e3dcf, type: 2}
 >>>>>>> Stashed changes
