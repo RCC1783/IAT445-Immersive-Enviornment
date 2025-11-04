@@ -125,6 +125,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Tex_HDR: {r: 1, g: 1, b: 0, a: 0}
-    - _TintColor: {r: 0.18140979, g: 0.18140979, b: 0.21509439, a: 1}
+    - _TintColor: {r: 0.10943389, g: 0.10943389, b: 0.10943389, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
