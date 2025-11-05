@@ -115,8 +115,8 @@ public class PlayerController_Base : MonoBehaviour
         }
 
         Vector3 moveDir = (forwardVec + rightVec).normalized * moveSpeed;
-        // transform.Translate(moveDir);
-        rb.linearVelocity = moveDir;
+       // transform.Translate(moveDir);
+       rb.linearVelocity = moveDir;
     }
 
     public void SetActive(bool status)
