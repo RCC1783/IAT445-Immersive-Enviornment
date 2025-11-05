@@ -29,6 +29,8 @@ TagManager:
   - SamplesInfoPanel
   - QDSUIToggleCheckboxRadio
   - Immovable
+  - Web
+  - Teleport
   layers:
   - Default
   - TransparentFX
