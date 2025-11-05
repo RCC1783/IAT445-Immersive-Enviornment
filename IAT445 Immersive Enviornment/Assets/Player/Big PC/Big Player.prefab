@@ -31,8 +31,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 800, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7440230208842972294}
+  m_Children: []
   m_Father: {fileID: 2320073593942515082}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &8327533306229125165
@@ -93,7 +92,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 372123639149255639}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &2873634200637625128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +258,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7440230208842972294}
   - {fileID: 184367950586379163}
   - {fileID: 6277794826496383780}
   - {fileID: 1507216084796556812}
@@ -302,15 +302,15 @@ MonoBehaviour:
   isActive: 0
   godMode: 0
   body: {fileID: 1060511345108431970}
-  camera: {fileID: 8327533306229125165}
-  moveSpeed: 5
+  camera: {fileID: 0}
+  moveSpeed: 500
   lookSpeed: 100
   rayDistance: 2000
   rayTargetPoint: {fileID: 3688017337817286988}
   layerMask:
     serializedVersion: 2
-    m_Bits: 0
-  scalingFac: 0.02
+    m_Bits: 128
+  scalingFac: 2
   handTransform: {fileID: 7440230208842972294}
 --- !u!54 &2829648947019518557
 Rigidbody:
@@ -453,9 +453,9 @@ Transform:
   m_GameObject: {fileID: 4280934705067675045}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 246, y: -297, z: 339}
+  m_LocalPosition: {x: 246, y: 503, z: 339}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1507216084796556812}
+  m_Father: {fileID: 2320073593942515082}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
