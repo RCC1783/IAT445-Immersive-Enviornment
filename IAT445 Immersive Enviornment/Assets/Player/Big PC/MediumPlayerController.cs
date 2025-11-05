@@ -1,4 +1,5 @@
 using System;
+using Oculus.Platform;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,6 +23,7 @@ public class MediumBodyController : PlayerController_Base
     // Update is called once per frame
     void Update()
     {
+        if (isActive == false) return;
         CameraUpdate();
 
         if (uniqueAction.WasPressedThisFrame())
@@ -38,6 +40,7 @@ public class MediumBodyController : PlayerController_Base
 
     void FixedUpdate()
     {
+        if (isActive == false) return;
         Movement();
 
         DoRaycast();
@@ -47,7 +50,7 @@ public class MediumBodyController : PlayerController_Base
     {
         if (objectInHand != null) return;
 
-        if (Physics.Raycast(camera.transform.position, camera.transform.forward.normalized, out hitInfo, rayDistance, layerMask))
+        if (Physics.Raycast(centerEyeAnchor.transform.position, centerEyeAnchor.transform.forward.normalized, out hitInfo, rayDistance, layerMask))
         {
             if (rayTargetPoint != null && isActive)
             {

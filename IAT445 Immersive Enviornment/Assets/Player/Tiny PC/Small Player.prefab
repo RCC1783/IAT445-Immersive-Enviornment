@@ -164,7 +164,7 @@ MonoBehaviour:
   isActive: 0
   godMode: 0
   body: {fileID: 2335919374898409472}
-  camera: {fileID: 8529748313312561035}
+  camera: {fileID: 0}
   moveSpeed: 10
   lookSpeed: 100
   rayDistance: 3
@@ -222,7 +222,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &31461407255116548
 Transform:
   m_ObjectHideFlags: 0
@@ -296,7 +296,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3706142497316206032}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!114 &2482645563440475366
 MonoBehaviour:
   m_ObjectHideFlags: 0
