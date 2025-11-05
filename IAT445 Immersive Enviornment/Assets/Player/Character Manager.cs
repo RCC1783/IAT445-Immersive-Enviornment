@@ -16,7 +16,7 @@ public class CharacterManager : MonoBehaviour
     private int scaleEnumCount;
 
     [SerializeField] private GameObject CameraRig;
-    public GameObject centerEyeAnchor;
+    public GameObject centerEyeAnchor; 
 
     void Start()
     {
