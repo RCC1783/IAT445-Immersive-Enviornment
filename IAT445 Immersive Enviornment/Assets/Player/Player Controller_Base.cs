@@ -104,8 +104,9 @@ public class PlayerController_Base : MonoBehaviour
             rightVec = new Vector3(camTransform.right.x, 0, camTransform.right.z) * input.x;
         }
 
-        Vector3 moveDir = (forwardVec + rightVec).normalized * moveSpeed * Time.fixedDeltaTime;
-        transform.Translate(moveDir);
+        Vector3 moveDir = (forwardVec + rightVec).normalized * moveSpeed;
+       // transform.Translate(moveDir);
+       rb.linearVelocity = moveDir;
     }
 
     public void SetActive(bool status)
