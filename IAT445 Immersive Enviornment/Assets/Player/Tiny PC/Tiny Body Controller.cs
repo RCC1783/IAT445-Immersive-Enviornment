@@ -30,9 +30,9 @@ public class TinyBodyController : PlayerController_Base
 
     void Update()
     {
-        CameraUpdate();
-
         if (!isActive) return;
+        
+        CameraUpdate();
 
         if (uniqueAction.WasPressedThisFrame())
         {
@@ -48,9 +48,9 @@ public class TinyBodyController : PlayerController_Base
     
     void FixedUpdate()
     {
-        Movement();
-
         if (!isActive) return;
+        
+        Movement();
 
         if (webTarget != null)
         {
@@ -77,13 +77,15 @@ public class TinyBodyController : PlayerController_Base
             }
         }
 
-        webTarget = Instantiate(webTargetPrefab, camera.transform.position, camera.transform.rotation);
+        // webTarget = Instantiate(webTargetPrefab, camera.transform.position, camera.transform.rotation);
+        webTarget = Instantiate(webTargetPrefab, centerEyeAnchor.transform.position, centerEyeAnchor.transform.rotation);
         webTargetScript = webTarget.GetComponent<WebTarget>();
         webTargetScript.Init(this);
 
         Rigidbody webTarget_rb = webTarget.GetComponent<Rigidbody>();
 
-        webTarget_rb.linearVelocity = camera.transform.TransformDirection(Vector3.forward * webFireForce); 
+        // webTarget_rb.linearVelocity = camera.transform.TransformDirection(Vector3.forward * webFireForce);
+        webTarget_rb.linearVelocity = centerEyeAnchor.transform.TransformDirection(Vector3.forward * webFireForce); 
         
     }
     void UpdateWeb()
@@ -165,7 +167,7 @@ public class TinyBodyController : PlayerController_Base
     {
         RaycastHit hitInfo;
 
-        if (Physics.Raycast(camera.transform.position, camera.transform.forward.normalized, out hitInfo, rayDistance, layerMask))
+        if (Physics.Raycast(centerEyeAnchor.transform.position, centerEyeAnchor.transform.forward.normalized, out hitInfo, rayDistance, layerMask))
         {
             if (rayTargetPoint != null && isActive)
             {

@@ -1,4 +1,5 @@
 using System;
+using Oculus.Platform;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +14,7 @@ public class PlayerController_Base : MonoBehaviour
     protected Rigidbody rb;
     protected Collider collider;
 
-    [SerializeField] protected Camera camera;
+    // [SerializeField] protected GameObject camera;
 
     //Input Actions
     protected InputAction moveInp;
@@ -31,6 +32,10 @@ public class PlayerController_Base : MonoBehaviour
     [SerializeField] protected LayerMask layerMask;
     [SerializeField] protected float scalingFac = 0.02f;
     protected Vector3 scaleVec;
+
+    public Transform camTransform;
+    public GameObject VRCam;
+    public GameObject centerEyeAnchor;
 
 
     Vector2 camRot;
@@ -58,6 +63,8 @@ public class PlayerController_Base : MonoBehaviour
         }
 
         scaleVec = new Vector3(scalingFac, scalingFac, scalingFac);
+
+        // camera.SetActive(false);
     }
 
     // Update is called once per frame
@@ -75,7 +82,10 @@ public class PlayerController_Base : MonoBehaviour
         camRot.x += lookDir.x;
         camRot.y -= lookDir.y;
 
-        camera.transform.localRotation = Quaternion.Euler(camRot.y, camRot.x, 0);
+        // camera.transform.localRotation = Quaternion.Euler(camRot.y, camRot.x, 0);
+        camTransform.transform.localRotation = Quaternion.Euler(0, camRot.x, 0);
+        VRCam.transform.position = camTransform.position;
+        VRCam.transform.localRotation = camTransform.transform.localRotation;
     }
 
     void FixedUpdate()
@@ -88,7 +98,7 @@ public class PlayerController_Base : MonoBehaviour
         if (isActive == false) return;
 
         Vector2 input = moveInp.ReadValue<Vector2>();
-        Transform camTransform = camera.transform;
+        // Transform camTransform = camera.transform;
 
         Vector3 forwardVec;
         Vector3 rightVec;
@@ -111,7 +121,7 @@ public class PlayerController_Base : MonoBehaviour
     public void SetActive(bool status)
     {
         isActive = status;
-        camera.enabled = status;
+        // camera.SetActive(status);
     }
     
     
