@@ -29,6 +29,7 @@ TagManager:
   - SamplesInfoPanel
   - QDSUIToggleCheckboxRadio
   - Immovable
+  - BridgeObject
   layers:
   - Default
   - TransparentFX
