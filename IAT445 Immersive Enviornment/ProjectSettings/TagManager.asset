@@ -30,6 +30,8 @@ TagManager:
   - QDSUIToggleCheckboxRadio
   - Immovable
   - BridgeObject
+  - Web
+  - Teleport
   layers:
   - Default
   - TransparentFX
