@@ -15,6 +15,9 @@ public class CharacterManager : MonoBehaviour
 
     private int scaleEnumCount;
 
+    [SerializeField] private GameObject CameraRig;
+    public GameObject centerEyeAnchor; 
+
     void Start()
     {
         changeSizeBut = InputSystem.actions.FindAction("Change Size");
@@ -24,6 +27,10 @@ public class CharacterManager : MonoBehaviour
         //Sets default character to active
         PlayerController_Base pcScript = characters[(int)currentSize].GetComponent<PlayerController_Base>();
         pcScript.SetActive(true);
+
+        CameraRig.transform.position = pcScript.camTransform.transform.position;
+        pcScript.VRCam = CameraRig;
+        pcScript.centerEyeAnchor = centerEyeAnchor;
     }
 
     // Update is called once per frame
@@ -46,6 +53,9 @@ public class CharacterManager : MonoBehaviour
 
         if (pcScript == null) return;
 
+        pcScript.VRCam = null;
+        pcScript.centerEyeAnchor = null;
+
         pcScript.SetActive(false);
 
         pcScript = characters[(int)size].GetComponent<PlayerController_Base>();
@@ -56,7 +66,11 @@ public class CharacterManager : MonoBehaviour
         }
         
         pcScript.SetActive(true);
-        
+
         currentSize = size;
+
+        CameraRig.transform.position = pcScript.camTransform.transform.position;
+        pcScript.VRCam = CameraRig;
+        pcScript.centerEyeAnchor = centerEyeAnchor;
     }
 }

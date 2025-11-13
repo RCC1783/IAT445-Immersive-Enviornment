@@ -28,6 +28,10 @@ TagManager:
   - QDSUITextInputField
   - SamplesInfoPanel
   - QDSUIToggleCheckboxRadio
+  - Immovable
+  - BridgeObject
+  - Web
+  - Teleport
   layers:
   - Default
   - TransparentFX

@@ -36,11 +36,9 @@ public class WebTarget : MonoBehaviour
         GameObject gameObject = collision.collider.gameObject;
         ObjectComponent objectComponent = gameObject.GetComponent<ObjectComponent>();
 
-
         if (objectComponent == null)
         {
             targetWeight = Weight.NULL;
-            return;
         }
         else targetWeight = objectComponent.weight;
 
