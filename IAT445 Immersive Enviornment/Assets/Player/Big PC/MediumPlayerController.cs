@@ -50,7 +50,7 @@ public class MediumBodyController : PlayerController_Base
     {
         if (objectInHand != null) return;
 
-        if (Physics.Raycast(centerEyeAnchor.transform.position, centerEyeAnchor.transform.forward.normalized, out hitInfo, rayDistance, layerMask))
+        if (Physics.Raycast(rightVRController.transform.position, rightVRController.transform.forward.normalized, out hitInfo, rayDistance, layerMask))
         {
             if (rayTargetPoint != null && isActive)
             {
