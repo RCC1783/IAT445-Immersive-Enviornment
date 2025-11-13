@@ -2,10 +2,12 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using Oculus.Platform.Models;
 
 public class TinyBodyController : PlayerController_Base
 {
     [SerializeField] private float webFireForce = 2;
+    [SerializeField] private int maxWebObjects = 50;
 
     [SerializeField] private GameObject webTargetPrefab;
     private GameObject webTarget = null;
@@ -21,6 +23,8 @@ public class TinyBodyController : PlayerController_Base
 
     [SerializeField] private int webPullForce = 10;
 
+    [SerializeField] private GameObject closestPointMarker;
+
     void Start()
     {
         OnStart();
@@ -31,7 +35,7 @@ public class TinyBodyController : PlayerController_Base
     void Update()
     {
         if (!isActive) return;
-        
+
         CameraUpdate();
 
         if (uniqueAction.WasPressedThisFrame())
@@ -45,11 +49,11 @@ public class TinyBodyController : PlayerController_Base
             PullOnWeb();
         }
     }
-    
+
     void FixedUpdate()
     {
         if (!isActive) return;
-        
+
         Movement();
 
         if (webTarget != null)
@@ -64,29 +68,21 @@ public class TinyBodyController : PlayerController_Base
     {
         Debug.Log("Web Fired");
 
-        if(webTarget != null)
+        if (webTarget != null)
         {
-            Destroy(webTarget);
-            
-            while(webObjects.Count > 0)
-            {
-                GameObject tmp = webObjects[webObjects.Count - 1];
-                webObjects.Remove(tmp);
-                Destroy(tmp);
-                webStuckOn = null;
-            }
+            DestroyWeb();
         }
 
         // webTarget = Instantiate(webTargetPrefab, camera.transform.position, camera.transform.rotation);
-        webTarget = Instantiate(webTargetPrefab, centerEyeAnchor.transform.position, centerEyeAnchor.transform.rotation);
+        webTarget = Instantiate(webTargetPrefab, leftVRController.transform.position, leftVRController.transform.rotation);
         webTargetScript = webTarget.GetComponent<WebTarget>();
         webTargetScript.Init(this);
 
         Rigidbody webTarget_rb = webTarget.GetComponent<Rigidbody>();
 
         // webTarget_rb.linearVelocity = camera.transform.TransformDirection(Vector3.forward * webFireForce);
-        webTarget_rb.linearVelocity = centerEyeAnchor.transform.TransformDirection(Vector3.forward * webFireForce); 
-        
+        webTarget_rb.linearVelocity = leftVRController.transform.TransformDirection(Vector3.forward * webFireForce);
+
     }
     void UpdateWeb()
     {
@@ -95,6 +91,18 @@ public class TinyBodyController : PlayerController_Base
         Vector3 dispVec = webTarget.transform.position - transform.position;
 
         int webMeshCount = Mathf.CeilToInt(dispVec.magnitude) * 10;
+
+        if(webMeshCount >= maxWebObjects * 5)
+        {
+            DestroyWeb();
+            return;
+        }
+
+        if (webMeshCount > maxWebObjects)
+        {
+            webMeshCount = maxWebObjects;
+        }
+
         int webObjectsCount = webObjects.Count;
 
         if (webMeshCount != webObjectsCount)
@@ -119,7 +127,7 @@ public class TinyBodyController : PlayerController_Base
         for (int i = 0; i < webObjects.Count; i++)
         {
             webObjects[i].transform.position
-                = Vector3.Lerp(transform.position, webTarget.transform.position, i / (float)(webObjects.Count - 1));
+                = Vector3.Lerp(leftVRController.transform.position, webTarget.transform.position, i / (float)(webObjects.Count - 1));
             // Debug.Log("WebObject " + i + "/" + (webObjects.Count - 1) + " drawn at " + webObjects[i].transform.position);
         }
     }
@@ -129,30 +137,8 @@ public class TinyBodyController : PlayerController_Base
         webStuckOn = targ;
     }
 
-    private void PullOnWeb()
+    private void DestroyWeb()
     {
-        if (webStuckOn == null) return;
-        Debug.Log("Pulled");
-
-        Vector3 dir = webTarget.transform.position - transform.position;
-
-        if (webTargetScript.targetWeight == Weight.NULL)
-        {
-            return;
-        }
-
-        if (webTargetScript.targetWeight >= Weight.MEDIUM)
-        {
-            rb.linearVelocity = dir.normalized * webPullForce;
-        }
-
-        if (webTargetScript.targetWeight <= Weight.LIGHT)
-        {
-            Rigidbody targetRB = webStuckOn.GetComponent<Rigidbody>();
-            if (targetRB == null) return;
-            targetRB.AddForce(dir.normalized * -1 * webPullForce * 100 / targetRB.mass);
-        }
-
         Destroy(webTarget);
         while (webObjects.Count > 0)
         {
@@ -162,12 +148,48 @@ public class TinyBodyController : PlayerController_Base
             webStuckOn = null;
         }
     }
-    
+
+    private void PullOnWeb()
+    {
+        if (webStuckOn == null)
+        {
+            DestroyWeb();
+            return;
+        }
+
+        Debug.Log("Pulled");
+        
+        Vector3 dir = webTarget.transform.position - transform.position;
+
+        if (webTargetScript.targetWeight == Weight.NULL)
+        {
+            rb.AddForce(dir.normalized * webPullForce * 10, ForceMode.Impulse);
+            DestroyWeb();
+            return;
+        }
+
+        if (webTargetScript.targetWeight >= Weight.MEDIUM)
+        {
+            rb.AddForce(dir.normalized * webPullForce * 10, ForceMode.Impulse);
+            GetClosestUpwardEdge(webStuckOn.GetComponent<MeshFilter>().mesh);
+            DestroyWeb();
+        }
+
+        if (webTargetScript.targetWeight <= Weight.LIGHT)
+        {
+            dir = webTarget.transform.position - leftVRController.transform.position;
+            Rigidbody targetRB = webStuckOn.GetComponent<Rigidbody>();
+            if (targetRB == null) return;
+            targetRB.AddForce(dir.normalized * -1 * webPullForce * 100 / targetRB.mass);
+            DestroyWeb(); 
+        }
+    }
+
     void DoRaycast()
     {
         RaycastHit hitInfo;
 
-        if (Physics.Raycast(centerEyeAnchor.transform.position, centerEyeAnchor.transform.forward.normalized, out hitInfo, rayDistance, layerMask))
+        if (Physics.Raycast(rightVRController.transform.position, rightVRController.transform.forward.normalized, out hitInfo, rayDistance, layerMask))
         {
             if (rayTargetPoint != null && isActive)
             {
@@ -197,4 +219,134 @@ public class TinyBodyController : PlayerController_Base
         }
     }
 
+    private Vector3[] GetClosestUpwardEdge(Mesh mesh)
+    {
+        if (mesh == null) return new Vector3[0];
+
+        Vector3[] verts = mesh.vertices;
+
+        transform.TransformPoints(verts);
+
+        Vector3 closestPoint = new Vector3(999, 999, 999);
+        foreach (Vector3 vert in verts)
+        {
+            if(Vector3.Distance(vert, webTarget.transform.position) < Vector3.Distance(closestPoint, webTarget.transform.position))
+            {
+                closestPoint = vert;
+            }
+        }
+
+        // Vector3_BST bst = new Vector3_BST();
+
+        // for (int i = 0; i < verts.Length - 1; i++)
+        // {
+        //     Vector3_BST_Node newNode = new Vector3_BST_Node(verts[i], i, webTarget.transform.position);
+
+        //     bst.Insert(newNode);
+        // }
+
+        if(closestPointMarker != null)
+        {
+            closestPointMarker.transform.position = closestPoint;
+        }
+
+        return new Vector3[2];
+    }
+
 }
+
+// class Vector3_BST_Node
+// {
+//     public Vector3 pos;
+//     public float distance; //distance from 
+//     public int index; //index in mesh vert array
+
+//     public Vector3_BST_Node left;
+//     public Vector3_BST_Node right;
+
+//     public Vector3_BST_Node(Vector3 pos, int index, Vector3 refPoint)
+//     {
+//         this.pos = pos;
+//         this.index = index;
+
+//         distance = Vector3.Distance(refPoint, pos);
+//     }
+// }
+
+
+// class Vector3_BST
+// {
+//     public Vector3_BST_Node root;
+
+//     public void Insert(Vector3_BST_Node newNode)
+//     {
+//         if (root == null)
+//         {
+//             root = newNode;
+//             return;
+//         }
+
+//         Vector3_BST_Node current = root;
+//         while (current != null)
+//         {
+//             if (current.distance >= newNode.distance && current.left != null)
+//             {
+//                 current = current.left;
+//             }
+//             else if (current.distance < newNode.distance && current.right != null)
+//             {
+//                 current = current.right;
+//             }
+//             else break;
+//         }
+
+//         if (current.distance > newNode.distance)
+//         {
+//             current.left = newNode;
+//         }
+//         else
+//         {
+//             current.right = newNode;
+//         }
+//     }
+
+//     public int GetIndexOfClosestVertex()
+//     {
+//         Vector3_BST_Node current = root;
+
+//         while (current.left != null)
+//         {
+//             current = current.left;
+//         }
+
+//         return current.index;
+//     }
+
+//     public Vector3[] GetTwoClosestVertPositions()
+//     {
+//         Vector3_BST_Node current = root;
+
+//         while (current.left.left != null)
+//         {
+//             current = current.left;
+//         }
+
+//         Vector3[] ret = new Vector3[2];
+//         ret[0] = current.left.pos;
+//         ret[1] = current.pos;
+//         return ret;
+//     }
+    
+//     public void PrintTree(Vector3_BST_Node node)
+//     {
+//         if (node == null)
+//         {
+//             return;
+//         }
+
+//         PrintTree(node.left);
+//         Debug.Log(node.distance + " ");
+//         PrintTree(node.right);
+//     }
+
+// }

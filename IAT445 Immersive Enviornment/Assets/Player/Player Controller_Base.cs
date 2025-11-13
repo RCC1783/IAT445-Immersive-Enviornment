@@ -36,6 +36,8 @@ public class PlayerController_Base : MonoBehaviour
     public Transform camTransform;
     public GameObject VRCam;
     public GameObject centerEyeAnchor;
+    public GameObject leftVRController;
+    public GameObject rightVRController;
 
 
     Vector2 camRot;
