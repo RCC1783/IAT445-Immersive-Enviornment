@@ -9,6 +9,8 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuScreen;
 
     public GameObject howToPlay;
+
+    public GameObject settings;
     private InputAction pause;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -39,6 +41,7 @@ public class PauseMenu : MonoBehaviour
     {
         Debug.Log("resumed");
         howToPlay.SetActive(false);
+        settings.SetActive(false);
         pauseMenuScreen.SetActive(false);
         Time.timeScale = 1f;
         Paused = false;
@@ -63,4 +66,9 @@ public class PauseMenu : MonoBehaviour
         pauseMenuScreen.SetActive(false);
     }
 
+    public void Settings()
+    {
+        settings.SetActive(true);
+        pauseMenuScreen.SetActive(false);
+    }
 }

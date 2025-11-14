@@ -66,5 +66,5 @@
     "explorer.fileNesting.patterns": {
         "*.sln": "*.csproj"
     },
-    "dotnet.defaultSolution": "new layout -room1.sln"
+    "dotnet.defaultSolution": "draft-lvl1_2.sln"
 }
