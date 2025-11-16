@@ -3,7 +3,8 @@ using UnityEngine.InputSystem;
 
 public class SizeUI : MonoBehaviour
 {
-    public bool big = true;
+    public static SizeUI instance;
+    public bool big = false;
 
     public GameObject bigPicture;
 
@@ -12,10 +13,24 @@ public class SizeUI : MonoBehaviour
     private InputAction change;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
-        bigPicture.SetActive(false);
+        smallPicture.SetActive(true);
         change = InputSystem.actions.FindAction("Change Size");
+        big = false;
     }
 
     // Update is called once per frame
@@ -24,6 +39,7 @@ public class SizeUI : MonoBehaviour
         // if(Input.GetKeyDown(KeyCode.Shift))
         // if(GameObject.Find("Big Player").GetComponent<h>()
         //     .isActive = true)
+        Debug.Log(big);
         if(change.WasPressedThisFrame())
         {
             if (big)
