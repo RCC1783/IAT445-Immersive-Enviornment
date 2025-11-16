@@ -14,7 +14,7 @@ public class SizeUI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        bigPicture.SetActive(true);
+        bigPicture.SetActive(false);
         change = InputSystem.actions.FindAction("Change Size");
     }
 

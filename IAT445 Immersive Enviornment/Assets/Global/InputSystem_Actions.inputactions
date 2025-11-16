@@ -385,12 +385,6 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "Pause",
-                    "id": "bd7a6724-57a0-462d-99a9-cdc8395ead31",
-                    "path": "<XRController>{LeftHand}/{GripButton}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";XR",
-                    "action": "Unique 2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
