@@ -10,6 +10,8 @@ public class SizeUI : MonoBehaviour
 
     public GameObject smallPicture;
 
+    private GameObject playerMesh;
+
     private InputAction change;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -31,6 +33,8 @@ public class SizeUI : MonoBehaviour
         smallPicture.SetActive(true);
         change = InputSystem.actions.FindAction("Change Size");
         big = false;
+        playerMesh = GameObject.Find("dnaut5");
+        playerMesh.SetActive(true);
     }
 
     // Update is called once per frame
@@ -58,6 +62,9 @@ public class SizeUI : MonoBehaviour
         Debug.Log("big");
         smallPicture.SetActive(false);
         bigPicture.SetActive(true);
+
+        playerMesh.SetActive(false);
+
         big = true;
     }
     
@@ -66,6 +73,9 @@ public class SizeUI : MonoBehaviour
         Debug.Log("small");
         bigPicture.SetActive(false);
         smallPicture.SetActive(true);
+
+        playerMesh.SetActive(true);
+
         big = false;
     }
 }
