@@ -8,9 +8,11 @@ public class IntroImage : MonoBehaviour
     public GameObject intro;
 
     private InputAction click;
+    [SerializeField] private AudioClip menuOpen;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        SoundManager.instance.PlaySFX(menuOpen, transform, 1f);
         intro.SetActive(true);
         click = InputSystem.actions.FindAction("Click");
     }

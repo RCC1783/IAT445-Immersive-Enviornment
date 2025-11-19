@@ -13,6 +13,8 @@ public class PauseMenu : MonoBehaviour
     public GameObject settings;
     private InputAction pause;
 
+    [SerializeField] private AudioClip menuOpen;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -31,6 +33,7 @@ public class PauseMenu : MonoBehaviour
             }
             else
             {
+                SoundManager.instance.PlaySFX(menuOpen, transform, 1f);
                 Pause();
             }
         }
