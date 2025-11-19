@@ -14,6 +14,7 @@ public class PauseMenu : MonoBehaviour
     private InputAction pause;
 
     [SerializeField] private AudioClip menuOpen;
+    [SerializeField] private AudioClip menuClose;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,6 +30,7 @@ public class PauseMenu : MonoBehaviour
         {
             if (Paused)
             {
+                
                 Resume();
             }
             else
@@ -43,6 +45,7 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         Debug.Log("resumed");
+        SoundManager.instance.PlaySFX(menuClose, transform, 1f);
         howToPlay.SetActive(false);
         settings.SetActive(false);
         pauseMenuScreen.SetActive(false);
