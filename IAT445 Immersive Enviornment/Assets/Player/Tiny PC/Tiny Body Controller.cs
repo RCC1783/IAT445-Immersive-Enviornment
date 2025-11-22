@@ -71,7 +71,12 @@ public class TinyBodyController : PlayerController_Base
         Transform rayEmmiter = camTransform.transform;
         if (OVRManager.isHmdPresent)
         {
-            rayEmmiter = rightVRController.transform;
+            rayEmmiter = leftVRController.transform;
+            Debug.Log("HMD Present");
+        }
+        else
+        {
+            Debug.Log("HMD Not Present");
         }
 
         if (webTarget != null)
@@ -87,7 +92,7 @@ public class TinyBodyController : PlayerController_Base
         Rigidbody webTarget_rb = webTarget.GetComponent<Rigidbody>();
 
         // webTarget_rb.linearVelocity = camera.transform.TransformDirection(Vector3.forward * webFireForce);
-        webTarget_rb.linearVelocity = rayEmmiter.TransformDirection(Vector3.forward * webFireForce);
+        webTarget_rb.linearVelocity = rayEmmiter.TransformDirection(Vector3.forward) * webFireForce;
 
     }
     void UpdateWeb()
@@ -102,7 +107,7 @@ public class TinyBodyController : PlayerController_Base
 
         Vector3 dispVec = webTarget.transform.position - transform.position;
 
-        int webMeshCount = Mathf.CeilToInt(dispVec.magnitude) * 10;
+        int webMeshCount = Mathf.CeilToInt(dispVec.magnitude) * 2 ;
 
         if(webMeshCount >= maxWebObjects * 5)
         {
@@ -220,17 +225,15 @@ public class TinyBodyController : PlayerController_Base
 
                 Renderer rayTargetRenderer = rayTargetPoint.GetComponent<Renderer>();
 
-                ObjectComponent oc = target.GetComponent<ObjectComponent>();
-                Weight targetWeight;
-                if (oc == null) targetWeight = Weight.IMMOVABLE;
-                else targetWeight = oc.weight;
-
                 //Grow Target
                 rayTargetRenderer.material.SetColor("_BaseColor", Color.green);
                 if (useRayAction.ReadValue<float>() > 0)
                 {
+                    ObjectComponent oc = target.GetComponent<ObjectComponent>();
                     target.transform.localScale += scaleVec;
                     target.transform.position += new Vector3(0, scalingFac, 0) / 2f;
+                    
+                    oc.updateWeight();
                 }
             }
         }

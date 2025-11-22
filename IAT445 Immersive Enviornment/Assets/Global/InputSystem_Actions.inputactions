@@ -368,6 +368,17 @@
                 },
                 {
                     "name": "",
+                    "id": "45a41d10-cd3c-4cdf-a1ad-f7ebe8ce4e2c",
+                    "path": "<XRController>{LeftHand}/{GripButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";XR",
+                    "action": "Unique 2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c767e406-a8d8-476a-a541-b5358899e7dc",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
@@ -385,12 +396,6 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "Pause",
-                    "id": "bd7a6724-57a0-462d-99a9-cdc8395ead31",
-                    "path": "<XRController>{LeftHand}/{GripButton}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";XR",
-                    "action": "Unique 2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
