@@ -7,8 +7,6 @@ public class MediumBodyController : PlayerController_Base
 {
     [SerializeField] private Transform handTransform;
     private GameObject objectInHand = null;
-
-    private RaycastHit hitInfo;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,6 +23,11 @@ public class MediumBodyController : PlayerController_Base
     {
         if (isActive == false) return;
         CameraUpdate();
+
+        if (OVRManager.isHmdPresent)
+        {
+            handTransform = leftVRController.transform;
+        }
 
         if (uniqueAction.WasPressedThisFrame())
         {
@@ -43,19 +46,27 @@ public class MediumBodyController : PlayerController_Base
         if (isActive == false) return;
         Movement();
 
-        DoRaycast();
+        ShrinkRay();
     }
 
-    void DoRaycast()
+    void ShrinkRay()
     {
-        if (objectInHand != null) return;
+        Transform rayEmmiter = camTransform.transform;
+        RaycastHit hitInfo;
 
-        if (Physics.Raycast(rightVRController.transform.position, rightVRController.transform.forward.normalized, out hitInfo, rayDistance, layerMask))
+        if (OVRManager.isHmdPresent)
         {
-            if (rayTargetPoint != null && isActive)
+            rayEmmiter = rightVRController.transform;
+        }
+
+        if (Physics.Raycast(rayEmmiter.position, rayEmmiter.forward.normalized, out hitInfo, rayDistance, layerMask))
+        {
+            if (rayTargetPoint != null)
             {
+                rayTargetPoint.SetActive(true);
                 GameObject target = hitInfo.collider.gameObject;
-                if (target == objectInHand) return;
+
+                if (objectInHand != null && target == objectInHand) return;
 
                 rayTargetPoint.transform.position = hitInfo.point;
 
@@ -77,7 +88,7 @@ public class MediumBodyController : PlayerController_Base
         }
         else if (rayTargetPoint != null)
         {
-            rayTargetPoint.transform.position = body.transform.position;
+            rayTargetPoint.SetActive(false);
         }
     }
     
@@ -92,16 +103,47 @@ public class MediumBodyController : PlayerController_Base
             return;
         }
 
-        if (hitInfo.collider == null) return;
-        GameObject target = hitInfo.collider.gameObject;
+        Transform rayEmmiter = camTransform.transform;
+        RaycastHit hitInfo;
+        GameObject target = null;
+
+        if (OVRManager.isHmdPresent)
+        {
+            rayEmmiter = leftVRController.transform;
+        }
+
+        if (Physics.Raycast(rayEmmiter.position, rayEmmiter.forward.normalized, out hitInfo, rayDistance, layerMask))
+        {
+            if (rayTargetPoint != null)
+            {
+                rayTargetPoint.SetActive(true);
+                target = hitInfo.collider.gameObject;
+
+                if (objectInHand != null && target == objectInHand) return;
+
+                rayTargetPoint.transform.position = hitInfo.point;
+
+                Renderer rayTargetRenderer = rayTargetPoint.GetComponent<Renderer>();
+
+                rayTargetRenderer.material.SetColor("_BaseColor", Color.red);
+            }
+        }
+        else if (rayTargetPoint != null)
+        {
+            rayTargetPoint.SetActive(false);
+        }
+
+        if (target == null) return;
 
         ObjectComponent oc = target.GetComponent<ObjectComponent>();
         Weight targetWeight;
+
         if (oc == null) targetWeight = Weight.IMMOVABLE;
+
         else targetWeight = oc.weight;
         if (targetWeight <= Weight.MEDIUM)
         {
-            handTransform.position = rayTargetPoint.transform.position;
+            target.transform.position = handTransform.position;
             objectInHand = target;
             objectInHand.GetComponent<Rigidbody>().isKinematic = true;
             return;
