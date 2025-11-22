@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 982777784886307356}
   - component: {fileID: 5693983676975152044}
   - component: {fileID: 7490163773811565932}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 6856953574700556408}
   - component: {fileID: 3520237614245250085}
   - component: {fileID: 1127243450626394487}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Small Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,9 +165,9 @@ MonoBehaviour:
   isActive: 0
   godMode: 0
   body: {fileID: 2335919374898409472}
-  moveSpeed: 10
+  moveSpeed: 50
   lookSpeed: 100
-  rayDistance: 3
+  rayDistance: 5
   rayTargetPoint: {fileID: 5647747292624974082}
   layerMask:
     serializedVersion: 2
@@ -176,10 +176,14 @@ MonoBehaviour:
   camTransform: {fileID: 4471006471664071683}
   VRCam: {fileID: 0}
   centerEyeAnchor: {fileID: 0}
-  webFireForce: 10
+  leftVRController: {fileID: 0}
+  rightVRController: {fileID: 0}
+  webFireForce: 15
+  maxWebObjects: 50
   webTargetPrefab: {fileID: 2273517443844721645, guid: 2120b2d2340c87f409155149d3dc7527, type: 3}
   webMeshPrefab: {fileID: 3318724941290859040, guid: 1a3d06a8379064a4e8cf2dd5dcbbd7ec, type: 3}
   webPullForce: 10
+  closestPointMarker: {fileID: 0}
 --- !u!54 &1127243450626394487
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -219,7 +223,7 @@ GameObject:
   - component: {fileID: 8529748313312561035}
   - component: {fileID: 19639075822929333}
   - component: {fileID: 2482645563440475366}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TinyPlayer Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -353,7 +357,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4471006471664071683}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Camera Transform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -386,7 +390,7 @@ GameObject:
   - component: {fileID: 5093410199810184027}
   - component: {fileID: 9151429595292240824}
   - component: {fileID: 4294777313497891413}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ray Target Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}

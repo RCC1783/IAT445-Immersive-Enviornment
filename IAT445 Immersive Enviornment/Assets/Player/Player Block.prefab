@@ -3572,7 +3572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: 5817f7c0-f2a5-45f9-a5ca-64264e0166e8
-  instanceId: efcc1a02-d10e-4071-b3b8-6783874ed5a8
+  instanceId: a82eff5c-ed8e-421b-b77f-693cd26f981c
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -4117,7 +4117,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6984147044255704538}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7401,7 +7401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: 5817f7c0-f2a5-45f9-a5ca-64264e0166e8
-  instanceId: 8d13b17b-efbf-4bd3-a762-32e87aed01cb
+  instanceId: 1c34aad4-2d6b-4fcd-b977-b215680b1eb9
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -7656,7 +7656,7 @@ GameObject:
   - component: {fileID: 4607572589552982666}
   - component: {fileID: 2498197687065807441}
   - component: {fileID: 4652739278573383338}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: EventSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10220,7 +10220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: e47682b9-c270-40b1-b16d-90b627a5ce1b
-  instanceId: b7804d51-af5c-404d-84a1-26a9f51cf2ca
+  instanceId: f2202638-592d-41d2-9161-b7f31c2dfa31
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -11018,6 +11018,10 @@ PrefabInstance:
       value: HowToPlayPopup
       objectReference: {fileID: 0}
     - target: {fileID: 5660344280798877365, guid: bfbcbd878a38cd447a149e653d550071, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5660344280798877365, guid: bfbcbd878a38cd447a149e653d550071, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -11285,10 +11289,6 @@ PrefabInstance:
       value: Small Player
       objectReference: {fileID: 0}
     - target: {fileID: 3520237614245250085, guid: 2ca6c9e5b2db7a5489f1058cc83dcbe6, type: 3}
-      propertyPath: rayDistance
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3520237614245250085, guid: 2ca6c9e5b2db7a5489f1058cc83dcbe6, type: 3}
       propertyPath: leftVRController
       value: 
       objectReference: {fileID: 8473185131102286516}
@@ -11359,6 +11359,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7037606850288545103}
     m_Modifications:
+    - target: {fileID: 372123639149255639, guid: ee10cddec9e817a46a5800412d31eba1, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1060511345108431970, guid: ee10cddec9e817a46a5800412d31eba1, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1239797446806452398, guid: ee10cddec9e817a46a5800412d31eba1, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2320073593942515082, guid: ee10cddec9e817a46a5800412d31eba1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 469
@@ -11410,6 +11422,18 @@ PrefabInstance:
     - target: {fileID: 3282465101724375686, guid: ee10cddec9e817a46a5800412d31eba1, type: 3}
       propertyPath: m_Name
       value: Big Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3282465101724375686, guid: ee10cddec9e817a46a5800412d31eba1, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688017337817286988, guid: ee10cddec9e817a46a5800412d31eba1, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4280934705067675045, guid: ee10cddec9e817a46a5800412d31eba1, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
