@@ -94,6 +94,12 @@ public class TinyBodyController : PlayerController_Base
     {
         if (webTarget == null) return;
 
+        Transform rayEmmiter = transform;
+        if (OVRManager.isHmdPresent)
+        {
+            rayEmmiter = leftVRController.transform;
+        }
+
         Vector3 dispVec = webTarget.transform.position - transform.position;
 
         int webMeshCount = Mathf.CeilToInt(dispVec.magnitude) * 10;
@@ -129,11 +135,10 @@ public class TinyBodyController : PlayerController_Base
             }
         }
 
-
         for (int i = 0; i < webObjects.Count; i++)
         {
             webObjects[i].transform.position
-                = Vector3.Lerp(leftVRController.transform.position, webTarget.transform.position, i / (float)(webObjects.Count - 1));
+                = Vector3.Lerp(rayEmmiter.position, webTarget.transform.position, i / (float)(webObjects.Count - 1));
             // Debug.Log("WebObject " + i + "/" + (webObjects.Count - 1) + " drawn at " + webObjects[i].transform.position);
         }
     }
