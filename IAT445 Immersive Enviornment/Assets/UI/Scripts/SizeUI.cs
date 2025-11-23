@@ -47,7 +47,7 @@ public class SizeUI : MonoBehaviour
         Debug.Log(big);
         if(change.WasPressedThisFrame())
         {
-            SoundManager.instance.PlaySFX(switchSound, transform, 1f);
+            //SoundManager.instance.PlaySFX(switchSound, transform, 1f);
             if (big)
             {
                 smallUI();
