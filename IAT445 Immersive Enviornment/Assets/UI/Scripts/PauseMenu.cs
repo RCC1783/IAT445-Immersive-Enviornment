@@ -9,7 +9,12 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuScreen;
 
     public GameObject howToPlay;
+
+    public GameObject settings;
     private InputAction pause;
+
+    [SerializeField] private AudioClip menuOpen;
+    [SerializeField] private AudioClip menuClose;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,10 +30,12 @@ public class PauseMenu : MonoBehaviour
         {
             if (Paused)
             {
+                
                 Resume();
             }
             else
             {
+                SoundManager.instance.PlaySFX(menuOpen, transform, 1f);
                 Pause();
             }
         }
@@ -38,7 +45,9 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         Debug.Log("resumed");
+        SoundManager.instance.PlaySFX(menuClose, transform, 1f);
         howToPlay.SetActive(false);
+        settings.SetActive(false);
         pauseMenuScreen.SetActive(false);
         Time.timeScale = 1f;
         Paused = false;
@@ -63,4 +72,9 @@ public class PauseMenu : MonoBehaviour
         pauseMenuScreen.SetActive(false);
     }
 
+    public void Settings()
+    {
+        settings.SetActive(true);
+        pauseMenuScreen.SetActive(false);
+    }
 }
