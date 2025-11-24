@@ -6,18 +6,24 @@ using UnityEngine.InputSystem;
 public class MediumBodyController : PlayerController_Base
 {
     [SerializeField] private Transform handTransform;
+    private Vector3 defaultHandLocation;
     private GameObject objectInHand = null;
+    [SerializeField] private GameObject handRayTargetPoint;
+    private GameObject handTarget = null;
 
-    private RaycastHit hitInfo;
+    private InputAction enableMoveHandButton;
+    private bool movingHand = false;
+    private Vector3 objectOffset = Vector3.zero;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         OnStart();
 
-        // grabObjectButton = InputSystem.actions.FindAction("Unique");
+        enableMoveHandButton = InputSystem.actions.FindAction("Unique 2");
 
         // objectTransform = Instantiate(new GameObject("objectTransform"), camera.transform);
+        defaultHandLocation = handTransform.position;
     }
 
     // Update is called once per frame
@@ -33,29 +39,68 @@ public class MediumBodyController : PlayerController_Base
 
         if(objectInHand != null) //holding something
         {
-            objectInHand.transform.position = handTransform.position;
-            rayTargetPoint.transform.position = handTransform.position;
+            handRayTargetPoint.SetActive(true);
+            handRayTargetPoint.transform.position = handTransform.position;
+
+            if(enableMoveHandButton.ReadValue<float>() > 0)
+            {
+                movingHand = true;
+                Vector2 input = moveInp.ReadValue<Vector2>();
+                objectOffset += new Vector3(0, input.y, input.x) * 10;
+            }
+            else
+            {
+                movingHand = false;
+            }
+
+            if (OVRManager.isHmdPresent)
+            {
+                objectInHand.transform.position = 
+                    handTransform.position 
+                    + (1000 * leftVRController.transform.localPosition) 
+                    + objectOffset;
+            }
+            else
+            {
+                objectInHand.transform.position = 
+                    handTransform.position 
+                    + objectOffset;
+            }
+
+            // objectInHand.transform.position = handTransform.position + objectOffset;
+            // rayTargetPoint.transform.position = inHandPos.position;
         }
     }
 
     void FixedUpdate()
     {
         if (isActive == false) return;
-        Movement();
 
-        DoRaycast();
+        if(!movingHand) Movement();
+
+        ShrinkRay();
+
+        if(objectInHand == null) DoHandRaycast();
     }
 
-    void DoRaycast()
+    void ShrinkRay()
     {
-        if (objectInHand != null) return;
+        Transform rayEmmiter = camTransform.transform;
+        RaycastHit hitInfo;
 
-        if (Physics.Raycast(rightVRController.transform.position, rightVRController.transform.forward.normalized, out hitInfo, rayDistance, layerMask))
+        if (OVRManager.isHmdPresent)
         {
-            if (rayTargetPoint != null && isActive)
+            rayEmmiter = rightVRController.transform;
+        }
+
+        if (Physics.Raycast(rayEmmiter.position, rayEmmiter.forward.normalized, out hitInfo, rayDistance, layerMask))
+        {
+            if (rayTargetPoint != null)
             {
+                rayTargetPoint.SetActive(true);
                 GameObject target = hitInfo.collider.gameObject;
-                if (target == objectInHand) return;
+
+                if (objectInHand != null && target == objectInHand) return;
 
                 rayTargetPoint.transform.position = hitInfo.point;
 
@@ -77,8 +122,45 @@ public class MediumBodyController : PlayerController_Base
         }
         else if (rayTargetPoint != null)
         {
-            rayTargetPoint.transform.position = body.transform.position;
+            rayTargetPoint.SetActive(false);
         }
+    }
+
+    private void DoHandRaycast()
+    {
+        Transform rayEmmiter = handTransform;
+        RaycastHit hitInfo;
+        GameObject target = null;
+
+        if (OVRManager.isHmdPresent)
+        {
+            rayEmmiter = leftVRController.transform;
+        }
+
+        if (Physics.Raycast(rayEmmiter.position, rayEmmiter.forward.normalized, out hitInfo, rayDistance, layerMask))
+        {
+            if (handRayTargetPoint != null)
+            {
+                handRayTargetPoint.SetActive(true);
+                target = hitInfo.collider.gameObject;
+
+                if (objectInHand != null && target == objectInHand) return;
+
+                handRayTargetPoint.transform.position = hitInfo.point;
+
+                Renderer rayTargetRenderer = handRayTargetPoint.GetComponent<Renderer>();
+
+                rayTargetRenderer.material.SetColor("_BaseColor", Color.blue);
+            }
+        }
+        else if (rayTargetPoint != null)
+        {
+            handRayTargetPoint.SetActive(false);
+        }
+
+        if (target == null) return;
+        
+        handTarget = target;
     }
     
     private void PickUpObject()
@@ -87,25 +169,26 @@ public class MediumBodyController : PlayerController_Base
         if (objectInHand != null)
         {
             objectInHand.GetComponent<Rigidbody>().isKinematic = false;
+            objectInHand.GetComponent<Collider>().enabled = true;
             objectInHand = null;
             rayTargetPoint.transform.position = transform.position;
+            objectOffset = Vector3.zero;
             return;
         }
 
-        if (hitInfo.collider == null) return;
-        GameObject target = hitInfo.collider.gameObject;
-
-        ObjectComponent oc = target.GetComponent<ObjectComponent>();
+        ObjectComponent oc = handTarget.GetComponent<ObjectComponent>();
         Weight targetWeight;
+
         if (oc == null) targetWeight = Weight.IMMOVABLE;
         else targetWeight = oc.weight;
+
         if (targetWeight <= Weight.MEDIUM)
         {
-            handTransform.position = rayTargetPoint.transform.position;
-            objectInHand = target;
+            handTarget.transform.position = handTransform.position;
+            objectInHand = handTarget;
             objectInHand.GetComponent<Rigidbody>().isKinematic = true;
+            objectInHand.GetComponent<Collider>().enabled = false;
             return;
         }
-
     }
 }

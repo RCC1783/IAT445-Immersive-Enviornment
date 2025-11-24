@@ -61,12 +61,23 @@ public class TinyBodyController : PlayerController_Base
             UpdateWeb();
         }
 
-        DoRaycast();
+        GrowRay();
     }
 
     void ShootWeb()
     {
         Debug.Log("Web Fired");
+
+        Transform rayEmmiter = camTransform.transform;
+        if (OVRManager.isHmdPresent)
+        {
+            rayEmmiter = leftVRController.transform;
+            Debug.Log("HMD Present");
+        }
+        else
+        {
+            Debug.Log("HMD Not Present");
+        }
 
         if (webTarget != null)
         {
@@ -74,23 +85,29 @@ public class TinyBodyController : PlayerController_Base
         }
 
         // webTarget = Instantiate(webTargetPrefab, camera.transform.position, camera.transform.rotation);
-        webTarget = Instantiate(webTargetPrefab, leftVRController.transform.position, leftVRController.transform.rotation);
+        webTarget = Instantiate(webTargetPrefab, rayEmmiter.position, rayEmmiter.rotation);
         webTargetScript = webTarget.GetComponent<WebTarget>();
         webTargetScript.Init(this);
 
         Rigidbody webTarget_rb = webTarget.GetComponent<Rigidbody>();
 
         // webTarget_rb.linearVelocity = camera.transform.TransformDirection(Vector3.forward * webFireForce);
-        webTarget_rb.linearVelocity = leftVRController.transform.TransformDirection(Vector3.forward * webFireForce);
+        webTarget_rb.linearVelocity = rayEmmiter.TransformDirection(Vector3.forward) * webFireForce;
 
     }
     void UpdateWeb()
     {
         if (webTarget == null) return;
 
+        Transform rayEmmiter = transform;
+        if (OVRManager.isHmdPresent)
+        {
+            rayEmmiter = leftVRController.transform;
+        }
+
         Vector3 dispVec = webTarget.transform.position - transform.position;
 
-        int webMeshCount = Mathf.CeilToInt(dispVec.magnitude) * 10;
+        int webMeshCount = Mathf.CeilToInt(dispVec.magnitude) * 2 ;
 
         if(webMeshCount >= maxWebObjects * 5)
         {
@@ -123,11 +140,10 @@ public class TinyBodyController : PlayerController_Base
             }
         }
 
-
         for (int i = 0; i < webObjects.Count; i++)
         {
             webObjects[i].transform.position
-                = Vector3.Lerp(leftVRController.transform.position, webTarget.transform.position, i / (float)(webObjects.Count - 1));
+                = Vector3.Lerp(rayEmmiter.position, webTarget.transform.position, i / (float)(webObjects.Count - 1));
             // Debug.Log("WebObject " + i + "/" + (webObjects.Count - 1) + " drawn at " + webObjects[i].transform.position);
         }
     }
@@ -163,15 +179,19 @@ public class TinyBodyController : PlayerController_Base
 
         if (webTargetScript.targetWeight == Weight.NULL)
         {
-            rb.AddForce(dir.normalized * webPullForce * 10, ForceMode.Impulse);
+            // rb.AddForce(dir.normalized * webPullForce * 10, ForceMode.Impulse);
+            transform.position = webTarget.transform.position;
+            rb.linearVelocity = Vector3.zero;
             DestroyWeb();
             return;
         }
 
         if (webTargetScript.targetWeight >= Weight.MEDIUM)
         {
-            rb.AddForce(dir.normalized * webPullForce * 10, ForceMode.Impulse);
-            GetClosestUpwardEdge(webStuckOn.GetComponent<MeshFilter>().mesh);
+            // rb.AddForce(dir.normalized * webPullForce * 10, ForceMode.Impulse);
+            // GetClosestUpwardEdge(webStuckOn.GetComponent<MeshFilter>().mesh);
+            transform.position = webTarget.transform.position;
+            rb.linearVelocity = Vector3.zero;
             DestroyWeb();
         }
 
@@ -185,11 +205,17 @@ public class TinyBodyController : PlayerController_Base
         }
     }
 
-    void DoRaycast()
+    void GrowRay()
     {
+        Transform rayEmmiter = camTransform.transform;
         RaycastHit hitInfo;
 
-        if (Physics.Raycast(rightVRController.transform.position, rightVRController.transform.forward.normalized, out hitInfo, rayDistance, layerMask))
+        if (OVRManager.isHmdPresent)
+        {
+            rayEmmiter = rightVRController.transform;
+        }
+
+        if (Physics.Raycast(rayEmmiter.position, rayEmmiter.forward.normalized, out hitInfo, rayDistance, layerMask))
         {
             if (rayTargetPoint != null && isActive)
             {
@@ -199,17 +225,15 @@ public class TinyBodyController : PlayerController_Base
 
                 Renderer rayTargetRenderer = rayTargetPoint.GetComponent<Renderer>();
 
-                ObjectComponent oc = target.GetComponent<ObjectComponent>();
-                Weight targetWeight;
-                if (oc == null) targetWeight = Weight.IMMOVABLE;
-                else targetWeight = oc.weight;
-
                 //Grow Target
                 rayTargetRenderer.material.SetColor("_BaseColor", Color.green);
                 if (useRayAction.ReadValue<float>() > 0)
                 {
+                    ObjectComponent oc = target.GetComponent<ObjectComponent>();
                     target.transform.localScale += scaleVec;
                     target.transform.position += new Vector3(0, scalingFac, 0) / 2f;
+                    
+                    oc.updateWeight();
                 }
             }
         }

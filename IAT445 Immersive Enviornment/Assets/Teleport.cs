@@ -5,11 +5,13 @@ public class Teleport : MonoBehaviour
 {
 
     [SerializeField] private string playerTag = "Player";
+
+    public string scene;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(playerTag))
         {
-             SceneManager.LoadScene("level 2try");
+             SceneManager.LoadScene(scene);
         }
     }
 }
