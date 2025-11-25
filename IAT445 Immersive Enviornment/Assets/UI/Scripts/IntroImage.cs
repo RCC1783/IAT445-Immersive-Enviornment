@@ -29,6 +29,6 @@ public class IntroImage : MonoBehaviour
     public void exit()
     {
         intro.SetActive(false);
-        Destroy(intro);
+        Destroy(this);
     }
 }

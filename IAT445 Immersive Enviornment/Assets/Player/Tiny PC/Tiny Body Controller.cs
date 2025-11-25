@@ -52,7 +52,10 @@ public class TinyBodyController : PlayerController_Base
 
     void FixedUpdate()
     {
-        if (!isActive) return;
+        if (isActive == false) {
+            rb.linearVelocity = Vector3.zero;
+            return;
+        }
 
         Movement();
 

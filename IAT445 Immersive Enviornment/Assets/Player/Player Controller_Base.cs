@@ -97,7 +97,10 @@ public class PlayerController_Base : MonoBehaviour
 
     protected virtual void Movement()
     {
-        if (isActive == false) return;
+        if (isActive == false) {
+            rb.linearVelocity = Vector3.zero;
+            return;
+        }
 
         Vector2 input = moveInp.ReadValue<Vector2>();
         // Transform camTransform = camera.transform;

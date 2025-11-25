@@ -76,7 +76,10 @@ public class MediumBodyController : PlayerController_Base
 
     void FixedUpdate()
     {
-        if (isActive == false) return;
+        if (isActive == false) {
+            rb.linearVelocity = Vector3.zero;
+            return;
+        }
 
         if(!movingHand) Movement();
 
