@@ -1,7 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+// using System.Collections;
+// using System.Collections.Generic;
+// using UnityEngine;
+// using UnityEngine.InputSystem;
+using System;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -21,15 +26,17 @@ public class PauseMenu : MonoBehaviour
     {
         //pauseMenuScreen.SetActive(false);
         pause = InputSystem.actions.FindAction("Pause");
-        pause.Enable();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(pause);
+        Debug.Log(pause.actionMap.enabled);
         if (pause.WasPressedThisFrame())
         {
-            Debug.Log("buttonhit");
+            //Debug.Log("buttonhit");
             if (Paused)
             {
                 
@@ -46,7 +53,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
-        Debug.Log("resumed");
+        //Debug.Log("resumed");
         SoundManager.instance.PlaySFX(menuClose, transform, 1f);
         howToPlay.SetActive(false);
         settings.SetActive(false);
@@ -57,7 +64,7 @@ public class PauseMenu : MonoBehaviour
 
     void Pause()
     {
-        Debug.Log("paused");
+        //Debug.Log("paused");
         pauseMenuScreen.SetActive(true);
         Time.timeScale = 0f;
         Paused = true;

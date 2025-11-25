@@ -44,7 +44,7 @@ public class SizeUI : MonoBehaviour
         // if(Input.GetKeyDown(KeyCode.Shift))
         // if(GameObject.Find("Big Player").GetComponent<h>()
         //     .isActive = true)
-        Debug.Log(big);
+        //Debug.Log(big);
         if(change.WasPressedThisFrame())
         {
             //SoundManager.instance.PlaySFX(switchSound, transform, 1f);
@@ -61,7 +61,7 @@ public class SizeUI : MonoBehaviour
 
     public void bigUI()
     {
-        Debug.Log("big");
+        //Debug.Log("big");
         smallPicture.SetActive(false);
         bigPicture.SetActive(true);
 
@@ -72,7 +72,7 @@ public class SizeUI : MonoBehaviour
     
     public void smallUI()
     {
-        Debug.Log("small");
+        //Debug.Log("small");
         bigPicture.SetActive(false);
         smallPicture.SetActive(true);
 
