@@ -21,6 +21,7 @@ public class PauseMenu : MonoBehaviour
     {
         //pauseMenuScreen.SetActive(false);
         pause = InputSystem.actions.FindAction("Pause");
+        pause.Enable();
     }
 
     // Update is called once per frame
@@ -28,6 +29,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (pause.WasPressedThisFrame())
         {
+            Debug.Log("buttonhit");
             if (Paused)
             {
                 
