@@ -1,10 +1,11 @@
 using UnityEngine;
+using System;
 
 public class ButtonWebInteract : MonoBehaviour
 {
     [Header("Animation")]
     [SerializeField] private Animator animator;
-    [SerializeField] private string triggerName = "PuzzleSolved";
+
 
     [Header("Button Settings")]
     [SerializeField] private GameObject lightObject;   // <-- your light dome object
@@ -13,7 +14,11 @@ public class ButtonWebInteract : MonoBehaviour
     [SerializeField] private string playerTag = "Web";
 
     [Header("Extra")]
-    [SerializeField] private GameObject dome;          // object that disappears when puzzle solved
+    [SerializeField] private GameObject dome;   
+    
+    public static event Action OnAnyButtonPressed; // <-- notify listeners
+
+
 
     private bool isPressed = false;
 
@@ -25,7 +30,9 @@ public class ButtonWebInteract : MonoBehaviour
 
 
     private void Start()
-    {
+    {  
+       
+    
         // Cache renderer once
         lightRenderer = lightObject.GetComponent<Renderer>();
 
@@ -34,9 +41,7 @@ public class ButtonWebInteract : MonoBehaviour
              lightRenderer.material = unlitMaterial;
         }
            
-
-            animator.SetTrigger("PuzzleSolved");
-    }
+         }
 
 
     private void OnTriggerEnter(Collider other)
@@ -49,23 +54,27 @@ public class ButtonWebInteract : MonoBehaviour
             lightRenderer.material = litMaterial;
 
             pressedCount++;
+            OnAnyButtonPressed?.Invoke();
             CheckIfAllPressed();
         }
     }
 
 
 
-    private void CheckIfAllPressed()
-{
-    Debug.Log($"PressedCount: {pressedCount}/{totalButtons}");
-
-    if (pressedCount == totalButtons)
+      private void CheckIfAllPressed()
     {
-        Debug.Log("PUZZLE SOLVED -> Triggering animation!");
-        animator.SetTrigger(triggerName);
-        dome.SetActive(false);
-    }
+        Debug.Log($"PressedCount: {pressedCount}/{totalButtons}");
+
+        if (pressedCount >= totalButtons)
+        {
+            // Debug.Log("PUZZLE SOLVED -> Triggering animation!");
+            // animator.SetTrigger("PuzzleSolved");
+          
+            if (dome != null) dome.SetActive(false);
+            
+        }
+        
+
+
 }
-
-
 }
