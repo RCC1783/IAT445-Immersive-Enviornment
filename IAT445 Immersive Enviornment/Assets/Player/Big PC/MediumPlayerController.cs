@@ -70,6 +70,8 @@ public class MediumBodyController : PlayerController_Base
             // objectInHand.transform.position = handTransform.position + objectOffset;
             // rayTargetPoint.transform.position = inHandPos.position;
         }
+
+        body.transform.rotation = camTransform.rotation;
     }
 
     void FixedUpdate()
