@@ -58,6 +58,7 @@ public class TinyBodyController : PlayerController_Base
         }
 
         Movement();
+        Gravity();
 
         if (webTarget != null)
         {
@@ -65,6 +66,8 @@ public class TinyBodyController : PlayerController_Base
         }
 
         GrowRay();
+
+        rb.linearVelocity = vel;
     }
 
     void ShootWeb()
@@ -110,9 +113,9 @@ public class TinyBodyController : PlayerController_Base
 
         Vector3 dispVec = webTarget.transform.position - transform.position;
 
-        int webMeshCount = Mathf.CeilToInt(dispVec.magnitude) * 2 ;
+        int webMeshCount = Mathf.CeilToInt(dispVec.magnitude) * 5 ;
 
-        if(webMeshCount >= maxWebObjects * 5)
+        if(webMeshCount >= maxWebObjects * 10)
         {
             DestroyWeb();
             return;
@@ -146,7 +149,7 @@ public class TinyBodyController : PlayerController_Base
         for (int i = 0; i < webObjects.Count; i++)
         {
             webObjects[i].transform.position
-                = Vector3.Lerp(rayEmmiter.position, webTarget.transform.position, i / (float)(webObjects.Count - 1));
+                = Vector3.Lerp(rayEmmiter.transform.position, webTarget.transform.position, i / (float)(webObjects.Count - 1));
             // Debug.Log("WebObject " + i + "/" + (webObjects.Count - 1) + " drawn at " + webObjects[i].transform.position);
         }
     }
@@ -218,7 +221,7 @@ public class TinyBodyController : PlayerController_Base
             rayEmmiter = rightVRController.transform;
         }
 
-        if (Physics.Raycast(rayEmmiter.position, rayEmmiter.forward.normalized, out hitInfo, rayDistance, layerMask))
+        if (Physics.Raycast(rayEmmiter.position, rayEmmiter.TransformDirection(Vector3.forward), out hitInfo, rayDistance, layerMask))
         {
             if (rayTargetPoint != null && isActive)
             {

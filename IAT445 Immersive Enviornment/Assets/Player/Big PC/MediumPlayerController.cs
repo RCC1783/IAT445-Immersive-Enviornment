@@ -46,7 +46,10 @@ public class MediumBodyController : PlayerController_Base
             {
                 movingHand = true;
                 Vector2 input = moveInp.ReadValue<Vector2>();
-                objectOffset += new Vector3(0, input.y, input.x) * 10;
+
+                Vector3 forwardOffset = camTransform.forward.normalized * input.x;
+                Vector3 yOffset =  new Vector3(0, input.y, 0);
+                objectOffset += (yOffset + forwardOffset)*10f;
             }
             else
             {
@@ -56,15 +59,15 @@ public class MediumBodyController : PlayerController_Base
             if (OVRManager.isHmdPresent)
             {
                 objectInHand.transform.position = 
-                    handTransform.position 
-                    + (1000 * leftVRController.transform.localPosition) 
-                    + objectOffset;
+                    handTransform.position + objectOffset;
+                    
             }
             else
             {
                 objectInHand.transform.position = 
                     handTransform.position 
-                    + objectOffset;
+                    + objectOffset 
+                    + transform.TransformDirection(Vector3.forward);
             }
 
             // objectInHand.transform.position = handTransform.position + objectOffset;
@@ -82,10 +85,13 @@ public class MediumBodyController : PlayerController_Base
         }
 
         if(!movingHand) Movement();
+        Gravity();
 
         ShrinkRay();
 
         if(objectInHand == null) DoHandRaycast();
+        
+        rb.linearVelocity = vel;
     }
 
     void ShrinkRay()
@@ -116,11 +122,13 @@ public class MediumBodyController : PlayerController_Base
                 //Scale Object
                 if (useRayAction.ReadValue<float>() > 0)
                 {
+                    ObjectComponent oc = target.GetComponent<ObjectComponent>();
                     target.transform.localScale -= scaleVec;
                     if (target.transform.localScale.x <= 0)
                     {
                         target.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
                     }
+                    oc.updateWeight();
                     return;
                 }
             }
@@ -163,6 +171,8 @@ public class MediumBodyController : PlayerController_Base
             handRayTargetPoint.SetActive(false);
         }
 
+        handTarget = null;
+        
         if (target == null) return;
         
         handTarget = target;
@@ -181,6 +191,7 @@ public class MediumBodyController : PlayerController_Base
             return;
         }
 
+        if(handTarget == null) return;
         ObjectComponent oc = handTarget.GetComponent<ObjectComponent>();
         Weight targetWeight;
 

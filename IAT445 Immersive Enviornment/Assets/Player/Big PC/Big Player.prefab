@@ -253,6 +253,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 128
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 145
   scalingFac: 2
   camTransform: {fileID: 6738748964116534195}
   VRCam: {fileID: 0}
