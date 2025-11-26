@@ -256,7 +256,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 128
-  scalingFac: 2
+  scalingFac: 0.01
   camTransform: {fileID: 6738748964116534195}
   VRCam: {fileID: 0}
   centerEyeAnchor: {fileID: 0}

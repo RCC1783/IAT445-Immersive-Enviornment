@@ -22,6 +22,7 @@ public class ObjectComponent : MonoBehaviour
         {
             rb = gameObject.AddComponent<Rigidbody>();
             rb.mass = 1000;
+            rb.freezeRotation = true;
         }
     }
 

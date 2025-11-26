@@ -95,6 +95,8 @@ public class PlayerController_Base : MonoBehaviour
             camTransform.transform.localRotation = Quaternion.Euler(camRot.y, camRot.x, 0);
         }
 
+        if(body != null) body.transform.rotation = Quaternion.Euler(0, camRot.x, 0);
+
         VRCam.transform.position = camTransform.position;
         VRCam.transform.localRotation = camTransform.transform.localRotation;
     }
