@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EdgeDetection
   m_Active: 1
   settings:
-    renderPassEvent: 600
+    renderPassEvent: 450
     outlineThickness: 3
     outlineColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!114 &11400000
