@@ -21,6 +21,7 @@ public class ObjectComponent : MonoBehaviour
         if(rb == null)
         {
             rb = gameObject.AddComponent<Rigidbody>();
+            rb.mass = 1000;
         }
     }
 
