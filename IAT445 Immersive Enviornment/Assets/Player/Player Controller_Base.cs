@@ -30,6 +30,7 @@ public class PlayerController_Base : MonoBehaviour
     [SerializeField] protected float rayDistance = 2;
     [SerializeField] protected GameObject rayTargetPoint;
     [SerializeField] protected LayerMask layerMask;
+    [SerializeField] protected LayerMask groundLayerMask;
     [SerializeField] protected float scalingFac = 0.02f;
     protected Vector3 scaleVec;
 
@@ -41,6 +42,8 @@ public class PlayerController_Base : MonoBehaviour
 
 
     Vector2 camRot;
+
+    protected Vector3 vel;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -93,12 +96,14 @@ public class PlayerController_Base : MonoBehaviour
     void FixedUpdate()
     {
         Movement();
+        Gravity();
+        rb.linearVelocity = vel;
     }
 
     protected virtual void Movement()
     {
         if (isActive == false) {
-            rb.linearVelocity = Vector3.zero;
+            vel = Vector3.zero;
             return;
         }
 
@@ -121,7 +126,23 @@ public class PlayerController_Base : MonoBehaviour
 
         Vector3 moveDir = (forwardVec + rightVec).normalized * moveSpeed;
        // transform.Translate(moveDir);
-       rb.linearVelocity = moveDir;
+       vel = moveDir;
+    }
+
+    protected void Gravity()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 2f, groundLayerMask))
+        {
+            Debug.Log("grounded");
+        }
+        else
+        {
+            vel.y += -200f;
+            Debug.Log("floating");
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * 2f, Color.yellow);
+        }
     }
 
     public void SetActive(bool status)

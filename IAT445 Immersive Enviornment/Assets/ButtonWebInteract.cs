@@ -15,6 +15,7 @@ public class ButtonWebInteract : MonoBehaviour
 
     [Header("Extra")]
     [SerializeField] private GameObject dome;   
+    [SerializeField] private ObjectComponent PearlObjectComponent;
     
     public static event Action OnAnyButtonPressed; // <-- notify listeners
 
@@ -71,7 +72,7 @@ public class ButtonWebInteract : MonoBehaviour
             // animator.SetTrigger("PuzzleSolved");
           
             if (dome != null) dome.SetActive(false);
-            
+            if(PearlObjectComponent != null) PearlObjectComponent.enabled = true;
         }
         
 
