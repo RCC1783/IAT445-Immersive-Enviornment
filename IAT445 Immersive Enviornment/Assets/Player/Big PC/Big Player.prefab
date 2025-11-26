@@ -248,6 +248,9 @@ MonoBehaviour:
   body: {fileID: 0}
   moveSpeed: 1000
   lookSpeed: 100
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   rayDistance: 2000
   rayTargetPoint: {fileID: 3688017337817286988}
   layerMask:

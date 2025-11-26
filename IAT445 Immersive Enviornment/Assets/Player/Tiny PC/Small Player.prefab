@@ -165,8 +165,11 @@ MonoBehaviour:
   isActive: 0
   godMode: 0
   body: {fileID: 2335919374898409472}
-  moveSpeed: 50
+  moveSpeed: 500
   lookSpeed: 500
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   rayDistance: 5
   rayTargetPoint: {fileID: 5647747292624974082}
   layerMask:
@@ -178,8 +181,8 @@ MonoBehaviour:
   centerEyeAnchor: {fileID: 0}
   leftVRController: {fileID: 0}
   rightVRController: {fileID: 0}
-  webFireForce: 15
-  maxWebObjects: 100
+  webFireForce: 800
+  maxWebObjects: 500
   webTargetPrefab: {fileID: 2273517443844721645, guid: 2120b2d2340c87f409155149d3dc7527, type: 3}
   webMeshPrefab: {fileID: 3318724941290859040, guid: 1a3d06a8379064a4e8cf2dd5dcbbd7ec, type: 3}
   webPullForce: 10

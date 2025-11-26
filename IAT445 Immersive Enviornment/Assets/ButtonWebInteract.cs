@@ -41,7 +41,7 @@ public class ButtonWebInteract : MonoBehaviour
              lightRenderer.material = unlitMaterial;
         }
            
-         }
+    }
 
 
     private void OnTriggerEnter(Collider other)
@@ -61,7 +61,7 @@ public class ButtonWebInteract : MonoBehaviour
 
 
 
-      private void CheckIfAllPressed()
+    private void CheckIfAllPressed()
     {
         Debug.Log($"PressedCount: {pressedCount}/{totalButtons}");
 
@@ -73,8 +73,6 @@ public class ButtonWebInteract : MonoBehaviour
             if (dome != null) dome.SetActive(false);
             
         }
-        
 
-
-}
+    }
 }

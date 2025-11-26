@@ -3572,7 +3572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: 5817f7c0-f2a5-45f9-a5ca-64264e0166e8
-  instanceId: 8832d793-9c5e-4f13-ac90-46ef7d16eeaf
+  instanceId: aa413751-b30b-462b-9334-75799492d0e4
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -7403,7 +7403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: 5817f7c0-f2a5-45f9-a5ca-64264e0166e8
-  instanceId: ee291c56-fdcd-4097-b24f-0ae6cb8d4a69
+  instanceId: 285c24f1-75f8-4bb8-abc1-00b41f958ca8
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -10312,7 +10312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: e47682b9-c270-40b1-b16d-90b627a5ce1b
-  instanceId: a004794d-b025-4cfa-9e7a-13f061e3fd3e
+  instanceId: 3add7248-2877-4af2-a477-b98ee58ec950
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -11122,20 +11122,12 @@ PrefabInstance:
       value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 4749223713024209361, guid: bfbcbd878a38cd447a149e653d550071, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 1af7fb1da4fac9e499ac89658cec4fb8, type: 3}
-    - target: {fileID: 4749223713024209361, guid: bfbcbd878a38cd447a149e653d550071, type: 3}
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5660344280798877365, guid: bfbcbd878a38cd447a149e653d550071, type: 3}
       propertyPath: m_Layer
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5660344280798877365, guid: bfbcbd878a38cd447a149e653d550071, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6075032616080067084, guid: bfbcbd878a38cd447a149e653d550071, type: 3}
       propertyPath: m_SizeDelta.x
@@ -11428,10 +11420,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6271394843052412701, guid: cd2bd2f0658620f4692bb2c509e975f0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7122492700248819048, guid: cd2bd2f0658620f4692bb2c509e975f0, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7380594309610942399, guid: cd2bd2f0658620f4692bb2c509e975f0, type: 3}
@@ -11789,10 +11777,6 @@ PrefabInstance:
     - target: {fileID: 3399784073072401643, guid: 2ca6c9e5b2db7a5489f1058cc83dcbe6, type: 3}
       propertyPath: m_TagString
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3520237614245250085, guid: 2ca6c9e5b2db7a5489f1058cc83dcbe6, type: 3}
-      propertyPath: moveSpeed
-      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 3520237614245250085, guid: 2ca6c9e5b2db7a5489f1058cc83dcbe6, type: 3}
       propertyPath: leftVRController

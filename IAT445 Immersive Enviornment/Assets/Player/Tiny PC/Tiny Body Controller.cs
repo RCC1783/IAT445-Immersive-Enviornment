@@ -58,6 +58,8 @@ public class TinyBodyController : PlayerController_Base
         }
 
         Movement();
+        ApplyGravity();
+        rb.linearVelocity = linVel;
 
         if (webTarget != null)
         {
@@ -65,6 +67,7 @@ public class TinyBodyController : PlayerController_Base
         }
 
         GrowRay();
+
     }
 
     void ShootWeb()

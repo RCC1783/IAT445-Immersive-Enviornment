@@ -56,9 +56,10 @@ public class MediumBodyController : PlayerController_Base
             if (OVRManager.isHmdPresent)
             {
                 objectInHand.transform.position = 
-                    handTransform.position 
-                    + (1000 * leftVRController.transform.localPosition) 
-                    + objectOffset;
+                    handTransform.position
+                    + camTransform.right.normalized * leftVRController.transform.localPosition.x
+                    + new Vector3(0, objectOffset.y + (1000 * leftVRController.transform.localPosition.y), 0)
+                    + camTransform.forward.normalized * objectOffset.z;
             }
             else
             {
@@ -82,6 +83,9 @@ public class MediumBodyController : PlayerController_Base
         }
 
         if(!movingHand) Movement();
+        ApplyGravity();
+
+        rb.linearVelocity = linVel;
 
         ShrinkRay();
 
@@ -92,19 +96,21 @@ public class MediumBodyController : PlayerController_Base
     {
         Transform rayEmmiter = camTransform.transform;
         RaycastHit hitInfo;
+        GameObject target = null;
 
         if (OVRManager.isHmdPresent)
         {
             rayEmmiter = rightVRController.transform;
         }
 
-        if (Physics.Raycast(rayEmmiter.position, rayEmmiter.forward.normalized, out hitInfo, rayDistance, layerMask))
+        if (Physics.Raycast(rayEmmiter.position, rayEmmiter.forward.normalized, out hitInfo, rayDistance))
         {
-            if (rayTargetPoint != null)
+            target = hitInfo.collider.gameObject;
+            ObjectComponent OC = target.GetComponent<ObjectComponent>();
+            if (rayTargetPoint != null && OC != null)
             {
                 rayTargetPoint.SetActive(true);
-                GameObject target = hitInfo.collider.gameObject;
-
+                
                 if (objectInHand != null && target == objectInHand) return;
 
                 rayTargetPoint.transform.position = hitInfo.point;
@@ -121,6 +127,7 @@ public class MediumBodyController : PlayerController_Base
                     {
                         target.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
                     }
+                    OC.updateWeight();
                     return;
                 }
             }
@@ -142,12 +149,13 @@ public class MediumBodyController : PlayerController_Base
             rayEmmiter = leftVRController.transform;
         }
 
-        if (Physics.Raycast(rayEmmiter.position, rayEmmiter.forward.normalized, out hitInfo, rayDistance, layerMask))
+        if (Physics.Raycast(rayEmmiter.position, rayEmmiter.forward.normalized, out hitInfo, rayDistance))
         {
-            if (handRayTargetPoint != null)
+            target = hitInfo.collider.gameObject;
+            ObjectComponent OC = target.GetComponent<ObjectComponent>();
+            if (handRayTargetPoint != null && OC != null)
             {
                 handRayTargetPoint.SetActive(true);
-                target = hitInfo.collider.gameObject;
 
                 if (objectInHand != null && target == objectInHand) return;
 
@@ -156,16 +164,19 @@ public class MediumBodyController : PlayerController_Base
                 Renderer rayTargetRenderer = handRayTargetPoint.GetComponent<Renderer>();
 
                 rayTargetRenderer.material.SetColor("_BaseColor", Color.blue);
+
+                handTarget = target;
             }
         }
         else if (rayTargetPoint != null)
         {
             handRayTargetPoint.SetActive(false);
+            handTarget = null;
         }
 
-        if (target == null) return;
-        
-        handTarget = target;
+        // handTarget = null;
+        // if (target == null) return;
+        // handTarget = target;
     }
     
     private void PickUpObject()
@@ -181,6 +192,7 @@ public class MediumBodyController : PlayerController_Base
             return;
         }
 
+        if(handTarget == null) return;
         ObjectComponent oc = handTarget.GetComponent<ObjectComponent>();
         Weight targetWeight;
 

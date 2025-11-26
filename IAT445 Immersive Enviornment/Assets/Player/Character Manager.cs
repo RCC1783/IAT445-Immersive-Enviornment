@@ -15,6 +15,8 @@ public class CharacterManager : MonoBehaviour
 
     private int scaleEnumCount;
 
+
+
     [SerializeField] private GameObject CameraRig;
     public GameObject centerEyeAnchor; 
 
@@ -40,6 +42,18 @@ public class CharacterManager : MonoBehaviour
         {
             Size newSize = (Size)(((int)currentSize + 1) % characters.Length);
             SwitchPlayerSize(newSize);
+
+            Camera camComponent = centerEyeAnchor.GetComponent<Camera>();
+            
+            if(currentSize == Size.HUGE)
+            {
+                camComponent.nearClipPlane = 0.1f;
+            }
+            else
+            {
+                camComponent.nearClipPlane = 2f;
+            }
+
             return;
 
         }

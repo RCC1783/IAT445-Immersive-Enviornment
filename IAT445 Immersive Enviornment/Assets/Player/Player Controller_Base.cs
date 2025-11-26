@@ -24,6 +24,8 @@ public class PlayerController_Base : MonoBehaviour
 
     [SerializeField] protected float moveSpeed = 5f;
     [SerializeField] protected float lookSpeed = 100f;
+    [SerializeField] protected LayerMask groundLayerMask;
+    protected Vector3 linVel;
 
     // Shrink/grow ray stuff
     [Header("Grow/Shrink Ray Settings")]
@@ -84,8 +86,15 @@ public class PlayerController_Base : MonoBehaviour
         camRot.x += lookDir.x;
         camRot.y -= lookDir.y;
 
-        // camera.transform.localRotation = Quaternion.Euler(camRot.y, camRot.x, 0);
-        camTransform.transform.localRotation = Quaternion.Euler(0, camRot.x, 0);
+        if (OVRManager.isHmdPresent)
+        {
+            camTransform.transform.localRotation = Quaternion.Euler(0, camRot.x, 0);
+        }
+        else
+        {
+            camTransform.transform.localRotation = Quaternion.Euler(camRot.y, camRot.x, 0);
+        }
+
         VRCam.transform.position = camTransform.position;
         VRCam.transform.localRotation = camTransform.transform.localRotation;
     }
@@ -93,6 +102,8 @@ public class PlayerController_Base : MonoBehaviour
     void FixedUpdate()
     {
         Movement();
+        ApplyGravity();
+        rb.linearVelocity = linVel;
     }
 
     protected virtual void Movement()
@@ -120,8 +131,8 @@ public class PlayerController_Base : MonoBehaviour
         }
 
         Vector3 moveDir = (forwardVec + rightVec).normalized * moveSpeed;
-       // transform.Translate(moveDir);
-       rb.linearVelocity = moveDir;
+        
+        linVel = moveDir;
     }
 
     public void SetActive(bool status)
@@ -130,5 +141,20 @@ public class PlayerController_Base : MonoBehaviour
         // camera.SetActive(status);
     }
     
+    protected void ApplyGravity()
+    {
+        RaycastHit hit;
+
+        if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 2f, groundLayerMask))
+        {
+            Debug.Log("Grounded");
+
+        }
+        else
+        {
+            Debug.Log("in air");
+            linVel.y -= 100f;
+        }
+    }
     
 }

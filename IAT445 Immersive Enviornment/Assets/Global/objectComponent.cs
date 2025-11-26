@@ -9,11 +9,19 @@ public class ObjectComponent : MonoBehaviour
     private Vector3 startScale;
     private Weight startWeight;
 
+    private Rigidbody rb;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         startScale = transform.localScale;
         startWeight = weight;
+        
+        rb = GetComponent<Rigidbody>();
+        if(rb == null)
+        {
+            rb = gameObject.AddComponent<Rigidbody>();
+        }
     }
 
     // Update is called once per frame
@@ -21,6 +29,20 @@ public class ObjectComponent : MonoBehaviour
     {
         
 
+    }
+
+    void FixedUpdate()
+    {
+        RaycastHit hit;
+
+        if(Physics.Raycast(transform.position, Vector3.down, out hit, transform.localScale.magnitude))
+        {
+            return;
+        }
+        else
+        {
+            rb.linearVelocity -= new Vector3(0, 100, 0);
+        }
     }
 
     public void updateWeight()

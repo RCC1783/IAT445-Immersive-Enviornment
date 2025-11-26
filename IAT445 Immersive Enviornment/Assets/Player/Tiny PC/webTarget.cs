@@ -31,6 +31,11 @@ public class WebTarget : MonoBehaviour
 
     }
 
+    void FixedUpdate()
+    {
+        rb.linearVelocity -= new Vector3(0, 10, 0);
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         GameObject gameObject = collision.collider.gameObject;

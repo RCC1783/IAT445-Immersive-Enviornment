@@ -18,6 +18,7 @@ public class DoorProximity : MonoBehaviour
         if (other.CompareTag(playerTag))
         {
             //SoundManager.instance.PlaySFX(doorOpenSFX, transform, 1f);
+            if(doorCloseObj == null) return;
             doorOpenObj.Play();
             doorAnimator.SetBool(parameterName, true);
         }
@@ -28,6 +29,7 @@ public class DoorProximity : MonoBehaviour
         if (other.CompareTag(playerTag))
         {
             //SoundManager.instance.PlaySFX(doorCloseSFX, transform, 1f);
+            if(doorCloseObj == null) return;
             doorCloseObj.Play();
             doorAnimator.SetBool(parameterName, false);
         }
