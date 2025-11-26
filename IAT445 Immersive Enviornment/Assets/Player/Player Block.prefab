@@ -3572,7 +3572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: 5817f7c0-f2a5-45f9-a5ca-64264e0166e8
-  instanceId: 585e4a39-cb32-4ae3-bcf2-1b71f978d9e9
+  instanceId: fefba7ba-d455-4c81-9fd3-7a7cdda0be90
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -7403,7 +7403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: 5817f7c0-f2a5-45f9-a5ca-64264e0166e8
-  instanceId: a813a925-0a73-4a38-923a-8a48de29da05
+  instanceId: d386bb81-fb25-4812-a3a6-9f1dbf258515
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -10312,7 +10312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Meta.XR.BuildingBlocks::Meta.XR.BuildingBlocks.BuildingBlock
   blockId: e47682b9-c270-40b1-b16d-90b627a5ce1b
-  instanceId: 56b4e61a-1670-4ae7-a842-5ffd363f214e
+  instanceId: ec88308b-8f26-4564-ad66-779648339e30
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: 
@@ -11943,8 +11943,12 @@ PrefabInstance:
       value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 3520237614245250085, guid: 2ca6c9e5b2db7a5489f1058cc83dcbe6, type: 3}
+      propertyPath: rayDistance
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3520237614245250085, guid: 2ca6c9e5b2db7a5489f1058cc83dcbe6, type: 3}
       propertyPath: webFireForce
-      value: 20
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 3520237614245250085, guid: 2ca6c9e5b2db7a5489f1058cc83dcbe6, type: 3}
       propertyPath: maxWebObjects
@@ -12069,6 +12073,10 @@ PrefabInstance:
       propertyPath: body
       value: 
       objectReference: {fileID: 3686409185982266586}
+    - target: {fileID: 2350639940557431524, guid: ee10cddec9e817a46a5800412d31eba1, type: 3}
+      propertyPath: scalingFac
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 2350639940557431524, guid: ee10cddec9e817a46a5800412d31eba1, type: 3}
       propertyPath: leftVRController
       value: 
