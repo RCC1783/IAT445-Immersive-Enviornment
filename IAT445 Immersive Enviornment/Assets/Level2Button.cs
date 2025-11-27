@@ -12,6 +12,7 @@ public class Level2Button : MonoBehaviour
     void Start()
     {
       bridge.SetActive(false);  
+      trigger.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -23,11 +24,11 @@ public class Level2Button : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag(playerTag))
-        {
-            trigger.SetActive(true);
-        }
-    }
+    // private void OnTriggerExit(Collider other)
+    // {
+    //     if (other.CompareTag(playerTag))
+    //     {
+    //         trigger.SetActive(true);
+    //     }
+    // }
 }
